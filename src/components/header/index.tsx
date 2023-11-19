@@ -1,20 +1,18 @@
-import React from 'react'
 import MenuIcon from '../../icons/Menu';
 import SearchIcon from '../../icons/Search';
+import { IconProps } from '../../typings/icon';
 import styles from './styles.module.scss'
 
 interface HeaderProps {
     title?: string;
     description?: string;
-    showMenu?: boolean;
-    showSearch?: boolean;
+    children?: React.ReactNode | React.ReactNode[]
 }
 
 const Header = ({
     title = 'Prometheus',
     description = 'You can add, edit and delete locations',
-    showMenu,
-    showSearch
+    children
 }: HeaderProps) => {
     return (
         <header className={styles.header}>
@@ -22,9 +20,8 @@ const Header = ({
                 <h4 className={styles.title}>{title}</h4>
                 <p className={styles.description}>{description}</p>
             </div>
-            <div className={styles.iconContainer}>
-                {showSearch && <SearchIcon />}
-                {showMenu && <MenuIcon />}
+            <div className={styles.children}>
+                {children}
             </div>
         </header>)
 }

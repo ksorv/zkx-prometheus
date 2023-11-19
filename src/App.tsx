@@ -1,10 +1,15 @@
-import React, { useRef, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Home from './modules/locations';
+import Locations from './modules/locations';
 
 function App() {
   return (
-    <div className="App">
-      Hello
-    </div>
+    <Routes>
+      <Route
+        path="/locations/*"
+        element={<Locations />}
+      />
+    </Routes>
   );
 }
 
