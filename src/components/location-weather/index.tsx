@@ -7,26 +7,26 @@ import { useQuery } from 'react-query';
 import fetchWeather from '../../modules/locations/requests/fetch-weather';
 import { useCallback } from 'react';
 import Loader from '../loader';
+import { OpenApiResponse } from '../../typings/open-api';
 
 interface LocationWeatherProps {
-    location: Location
+    data?: OpenApiResponse;
+    isLoading: boolean;
+    isError: boolean;
 }
 
 const LocationWeather = ({
-    location
+    isLoading,
+    isError,
+    data
 }: LocationWeatherProps) => {
-    const locationKey = makeKeyFromLocation(location);
-
-    const fetchWeatherForLocation = useCallback(() => fetchWeather(location), [])
-    const weatherData = useQuery(locationKey, fetchWeatherForLocation);
-
-    if (weatherData.isLoading) {
+    if (isLoading) {
         return <div className={styles.locationLoader}>
             <Loader text="Loading weather..." />
         </div>
     }
 
-    if (weatherData.isError || !weatherData.data) {
+    if (isError || !data) {
         // noop for now
         return null;
     }
@@ -47,7 +47,7 @@ const LocationWeather = ({
             lon,
         },
         name: city
-    } = weatherData.data;
+    } = data;
 
     return (
         <div className={styles.location}>

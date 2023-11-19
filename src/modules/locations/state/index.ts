@@ -1,46 +1,40 @@
-import { useEffect, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import { Location } from "../typings";
 
-const LOCATION_KEY = '__location__'
+export const LOCATION_KEY = '__location__'
+
+export const getLocationsFromStorage = () => {
+    let parsedLocations: Array<Location> = [];
+    const data = localStorage.getItem(LOCATION_KEY) || '[]';
+
+    try {
+        parsedLocations = JSON.parse(data)
+    } catch {
+        // noop
+    }
+
+    return parsedLocations;
+}
+
+const setLocationsInStorage = (locations: Array<Location>) => {
+    localStorage.setItem(LOCATION_KEY, JSON.stringify(locations))
+}
+
+export const LocationsContext = createContext<Array<Location>>([]);
+export const SetLocationsContext = createContext<React.Dispatch<React.SetStateAction<Location[]>> | null>(null);
 
 export const useLocations = () => {
-    const mountRef = useRef(false);
-    const [locations, setLocations] = useState<Array<Location>>([
-        {
-            lon: -0.1181,
-            lan: 51.5099
-        },
-        {
-            lon: -1.1181,
-            lan: 21.5099
-        },
-        {
-            lon: -2.1181,
-            lan: 11.5099
-        },
-        {
-            lon: -0.1181,
-            lan: 81.5099
-        }
-    ]);
+    const state = useContext(LocationsContext);
+    const setState = useContext(SetLocationsContext);
 
     useEffect(() => {
-        if (mountRef.current) {
-            return;
+        if (state) {
+            setLocationsInStorage(state);
         }
+    }, [state])
 
-        let parsedLocations = [];
-        const data = localStorage.getItem(LOCATION_KEY) || '[]';
-
-        try {
-            parsedLocations = JSON.parse(data)
-        } catch {
-            // noop
-        }
-
-        setLocations([...locations, ...parsedLocations]);
-        mountRef.current = true;
-    }, []);
-
-    return { locations, setLocations };
+    return {
+        locations: state,
+        setLocations: setState
+    }
 }
