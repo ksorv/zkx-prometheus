@@ -1,15 +1,20 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from './modules/locations';
 import Locations from './modules/locations';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+// Create a client
+const queryClient = new QueryClient()
 
 function App() {
   return (
-    <Routes>
-      <Route
-        path="/locations/*"
-        element={<Locations />}
-      />
-    </Routes>
+    <QueryClientProvider client={queryClient}>
+      <Routes>
+        <Route
+          path="/locations/*"
+          element={<Locations />}
+        />
+      </Routes>
+    </QueryClientProvider>
   );
 }
 

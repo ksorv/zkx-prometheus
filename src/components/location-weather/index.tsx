@@ -1,15 +1,36 @@
 import styles from './styles.module.scss'
-import { OpenApiResponse } from '../../typings/open-api';
 import ArrowDownIcon from '../../icons/ArrowDown';
 import ArrowPointerIcon from '../../icons/ArrowPointer';
+import { Location } from '../../modules/locations/typings';
+import makeKeyFromLocation from '../../modules/locations/utils/cache';
+import { useQuery } from 'react-query';
+import fetchWeather from '../../modules/locations/requests/fetch-weather';
+import { useCallback } from 'react';
+import Loader from '../loader';
 
 interface LocationWeatherProps {
-    weather: OpenApiResponse
+    location: Location
 }
 
 const LocationWeather = ({
-    weather
+    location
 }: LocationWeatherProps) => {
+    const locationKey = makeKeyFromLocation(location);
+
+    const fetchWeatherForLocation = useCallback(() => fetchWeather(location), [])
+    const weatherData = useQuery(locationKey, fetchWeatherForLocation);
+
+    if (weatherData.isLoading) {
+        return <div className={styles.locationLoader}>
+            <Loader text="Loading weather..." />
+        </div>
+    }
+
+    if (weatherData.isError || !weatherData.data) {
+        // noop for now
+        return null;
+    }
+
     const {
         main: {
             temp,
@@ -26,7 +47,7 @@ const LocationWeather = ({
             lon,
         },
         name: city
-    } = weather;
+    } = weatherData.data;
 
     return (
         <div className={styles.location}>
@@ -36,7 +57,7 @@ const LocationWeather = ({
                         <span className={styles.temp}>{temp}</span>
                     </div>
                     <div className={styles.cityContainer}>
-                        <div className={styles.city}>{city} | {lon}, {lat}</div>
+                        <div className={styles.city}>{city ? `${city} | ` : ''}{lon}, {lat}</div>
                         <div className={styles.weatherStatus}>{description}</div>
                     </div>
                 </div>
