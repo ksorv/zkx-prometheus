@@ -1,0 +1,32 @@
+.header {
+    display: flex;
+    background: var(--primary);
+    padding: 24px 60px;
+    align-items: center;
+    justify-content: space-between;
+    
+    .textContainer {
+        gap: 16px;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        .title {
+            font-size: 30px;
+            line-height: 120%;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 125%;
+        }
+    }
+
+    .iconContainer {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+    
+}
