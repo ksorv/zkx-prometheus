@@ -1,0 +1,118 @@
+.location {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px 0;
+    gap: 16px;
+
+    .infoContainer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        .info {
+            display: flex;
+            gap: 16px;
+
+            .tempContainer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 80px;
+                width: 80px;
+                border-radius: 5px;
+                background-color: rgba(20, 165, 255, 0.15);
+
+                .temp {
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: var(--primary);
+                }
+            }
+
+            .cityContainer {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 8px;
+
+                .city {
+                    color: var(--black);
+                    font-size: 20px;
+                    font-weight: 500;
+                }
+
+                .weatherStatus {
+                    color: #6B7280;
+                    font-size: 14px;
+                    line-height: 20px;
+                    text-transform: capitalize;
+                }
+            }
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+
+            .arrowButton, .deleteButton {
+                border: 1px solid #FFF;
+                background: var(--danger);
+                color: #FFF;
+                font-size: 14px;
+                line-height: 20px;
+                cursor: pointer;
+            }
+
+            .deleteButton {
+                padding: 10px 48px;
+                font-weight: 500;
+                border-radius: 6px 0px 0px 6px;
+            }
+
+            .arrowButton {
+                border-radius: 0px 6px 6px 0px;
+                padding: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .weather {
+        padding: 8px 12px;
+        border-radius: 5px;
+        display: flex;
+        border-radius: 5px;
+        background: #F8F9FD;
+        gap: 24px;
+        align-items: center;
+        width: calc(100% - 24px);
+
+        .windSpeed {
+            display: flex;
+            align-items: center;
+            color: #6B7280;
+            font-size: 14px;
+            gap: 6px;
+            line-height: 20px;
+
+            svg {
+                margin-right: 6px;
+            }
+
+            span {
+                display: inline-block;
+            }
+        }
+
+        .humidity {
+            color: #6B7280;
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+}
