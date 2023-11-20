@@ -1,5 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import { Location } from "../typings";
+import isSameLocation from "../utils/location";
 
 export const LOCATION_KEY = '__location__'
 
@@ -27,6 +28,21 @@ export const useLocations = () => {
     const state = useContext(LocationsContext);
     const setState = useContext(SetLocationsContext);
 
+    const addLocation = useCallback((location: Location) => {
+        setState?.(state => {
+            return ([
+                location,
+                ...(state.filter((stateLocation) => {
+                    return !isSameLocation(location, stateLocation)
+                }))
+            ])
+        })
+    }, [])
+
+    const deleteLocation = useCallback((location: Location) => {
+        setState?.(state => state.filter((stateLocation) => !isSameLocation(location, stateLocation)))
+    }, [])
+
     useEffect(() => {
         if (state) {
             setLocationsInStorage(state);
@@ -35,6 +51,8 @@ export const useLocations = () => {
 
     return {
         locations: state,
-        setLocations: setState
+        setLocations: setState,
+        addLocation,
+        deleteLocation
     }
 }

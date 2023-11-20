@@ -1,10 +1,9 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { GoogleMap, Libraries, Marker, useLoadScript } from '@react-google-maps/api';
 import Loader from '../loader';
 import mapStyles from './styles'
 import styles from './styles.module.scss'
 import { Location } from '../../modules/locations/typings';
-import makeKeyFromLocation from '../../modules/locations/utils/cache';
 import Locate from './locate';
 
 const center = {
@@ -21,11 +20,11 @@ const options: google.maps.MapOptions = {
 }
 
 interface CustomMapProps {
+    marker?: Location
     addMarker: (marker: Location) => void;
-    markers: Array<Location>
 }
 
-const CustomMap = ({ markers, addMarker }: CustomMapProps) => {
+const CustomMap = ({ marker, addMarker }: CustomMapProps) => {
     const mapsRef = useRef<google.maps.Map | null>(null);
     const { isLoaded, loadError } = useLoadScript({
         id: 'google-map-script',
@@ -85,19 +84,16 @@ const CustomMap = ({ markers, addMarker }: CustomMapProps) => {
                 onLoad={onLoad}
                 onUnmount={onUnload}
             >
-                {markers?.map((marker) => (
-                    <Marker
-                        key={makeKeyFromLocation(marker)}
-                        position={{
-                            lat: marker.lan,
-                            lng: marker.lon
-                        }}
-                        icon={{
-                            url: "/marker.svg",
-                            ...(window.google && { scaledSize: new window.google.maps.Size(28, 28) })
-                        }}
-                    />
-                ))}
+                {marker && <Marker
+                    position={{
+                        lat: marker.lan,
+                        lng: marker.lon
+                    }}
+                    icon={{
+                        url: "/marker.svg",
+                        scaledSize: new window.google.maps.Size(28, 28)
+                    }}
+                />}
             </GoogleMap>
         </div>
     )

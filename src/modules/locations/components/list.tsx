@@ -11,7 +11,7 @@ interface ListViewProps {
 }
 
 const ListView = ({ onSearchClick }: ListViewProps) => {
-    const { locations } = useLocations();
+    const { locations, deleteLocation } = useLocations();
 
     const data = useQueries(locations.map(location => {
         return {
@@ -47,6 +47,8 @@ const ListView = ({ onSearchClick }: ListViewProps) => {
                         isLoading={data[idx].isLoading}
                         isError={data[idx].isError}
                         data={data[idx].data}
+                        location={location}
+                        onDelete={() => deleteLocation(location)}
                     />
                 ))}
             </div>

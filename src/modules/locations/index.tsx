@@ -10,15 +10,23 @@ const Locations = () => {
         navigate('/locations/search')
     }
 
-    const navigateToLocations = () => {
-        navigate('/locations')
-    }
-
     return (
         <LocationsProviders>
             <Routes>
-                <Route path="/search" element={<SearchView onDone={() => { }} onExit={navigateToLocations} />} />
-                <Route path="/" element={<ListView onSearchClick={navigateToSearch} />} />
+                <Route
+                    path="/search"
+                    element={
+                        <SearchView />
+                    }
+                />
+                <Route
+                    path="/"
+                    element={
+                        <ListView
+                            onSearchClick={navigateToSearch}
+                        />
+                    }
+                />
             </Routes >
         </LocationsProviders >
     )

@@ -13,11 +13,15 @@ interface LocationWeatherProps {
     data?: OpenApiResponse;
     isLoading: boolean;
     isError: boolean;
+    location: Location,
+    onDelete: () => void;
 }
 
 const LocationWeather = ({
     isLoading,
     isError,
+    onDelete,
+    location,
     data
 }: LocationWeatherProps) => {
     if (isLoading) {
@@ -57,12 +61,12 @@ const LocationWeather = ({
                         <span className={styles.temp}>{temp}</span>
                     </div>
                     <div className={styles.cityContainer}>
-                        <div className={styles.city}>{city ? `${city} | ` : ''}{lon}, {lat}</div>
+                        <div className={styles.city}>{city ? `${city} | ` : ''}{location.lon.toFixed(3)}, {location.lan.toFixed(3)}</div>
                         <div className={styles.weatherStatus}>{description}</div>
                     </div>
                 </div>
                 <div className={styles.buttons}>
-                    <button className={styles.deleteButton}>Delete</button>
+                    <button className={styles.deleteButton} onClick={onDelete}>Delete</button>
                     <button className={styles.arrowButton}><ArrowDownIcon size={14} /></button>
                 </div>
             </div>
