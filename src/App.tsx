@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Locations from './modules/locations';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -13,6 +13,7 @@ function App() {
           path="/locations/*"
           element={<Locations />}
         />
+        <Route path='/' element={<Navigate to={'/locations'} />} />
       </Routes>
     </QueryClientProvider>
   );
