@@ -1,10 +1,11 @@
 import { useQueries } from "react-query";
-import Header from "../../../components/header";
-import LocationWeather from "../../../components/location-weather";
-import SearchIcon from "../../../icons/Search";
-import { useLocations } from "../state";
-import makeKeyFromLocation from "../utils/cache";
-import fetchWeather from "../requests/fetch-weather";
+import Header from "../../../../components/header";
+import LocationWeather from "../../../../components/location-weather";
+import SearchIcon from "../../../../icons/Search";
+import { useLocations } from "../../state";
+import makeKeyFromLocation from "../../utils/cache";
+import fetchWeather from "../../requests/fetch-weather";
+import styles from './styles.module.scss'
 
 interface ListViewProps {
     onSearchClick: () => void;
@@ -21,26 +22,22 @@ const ListView = ({ onSearchClick }: ListViewProps) => {
     }))
 
     if (!locations.length) {
-        return <div>
+        return <div className={styles.listView}>
             <Header>
                 <SearchIcon size={20} onClick={onSearchClick} />
             </Header>
-            <div style={{
-                padding: '16px 60px'
-            }}>
+            <div className={styles.list}>
                 Please search and add locations to see weather
             </div>
         </div>
     }
 
     return (
-        <div>
+        <div className={styles.listView}>
             <Header>
                 <SearchIcon size={20} onClick={onSearchClick} />
             </Header>
-            <div style={{
-                padding: '16px 60px'
-            }}>
+            <div className={styles.list}>
                 {locations.map((location, idx) => (
                     <LocationWeather
                         key={makeKeyFromLocation(location)}
